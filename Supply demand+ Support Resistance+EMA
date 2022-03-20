@@ -1,0 +1,113 @@
+//@version=4
+
+
+study(title="Volume Supply and Demand Zones and support resistance", shorttitle=" Intraday Setup", precision=0, overlay=true)
+
+def_color_big = color.aqua
+def_fill_color_big = color.aqua
+def_color_mid = color.aqua
+def_fill_color_mid = color.teal
+def_color_small = color.aqua
+def_fill_color_small = color.navy
+TF = input(title="Timeframe (W, D, [minutes])", type=input.string, defval="D")
+length = input(5, minval=1)
+change = volume / volume[1] - 1
+stdev = stdev(change, length)
+difference = change / stdev[1]
+signal = abs(difference)
+
+Threshold_big = input(15, title="Threshold_Big_Vol")
+Threshold_mid = input(10, title="Threshold_Mid_Vol")
+Threshold_small = input(5, title="Threshold_Small_Vol")
+
+//-----------------------------------------------------------------------------------------
+leveluphi_big = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_big, high[1], 0))
+leveluplo_big = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_big, low[1], 0))
+p1 = plot(leveluphi_big, style=plot.style_circles, color=def_color_big)
+p2 = plot(leveluplo_big, style=plot.style_circles, color=def_color_big)
+fill(p1, p2, color=def_fill_color_big, transp=70)
+
+leveluphi_big2 = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_big, high[1], 1))
+leveluplo_big2 = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_big, low[1], 1))
+p12 = plot(leveluphi_big2, style=plot.style_circles, color=def_color_big)
+p22 = plot(leveluplo_big2, style=plot.style_circles, color=def_color_big)
+fill(p12, p22, color=def_fill_color_big, transp=70)
+
+leveluphi_big3 = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_big, high[1], 2))
+leveluplo_big3 = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_big, low[1], 2))
+p13 = plot(leveluphi_big3, style=plot.style_circles, color=def_color_big)
+p23 = plot(leveluplo_big3, style=plot.style_circles, color=def_color_big)
+fill(p13, p23, color=def_fill_color_big, transp=70)
+
+leveluphi_big4 = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_big, high[1], 3))
+leveluplo_big4 = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_big, low[1], 3))
+p14 = plot(leveluphi_big4, style=plot.style_circles, color=def_color_big)
+p24 = plot(leveluplo_big4, style=plot.style_circles, color=def_color_big)
+fill(p14, p24, color=def_fill_color_big, transp=70)
+//-----------------------------------------------------------------------------------------
+leveluphi_mid = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_mid and signal <= Threshold_big, high[1], 0))
+leveluplo_mid = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_mid and signal <= Threshold_big, low[1], 0))
+p3 = plot(leveluphi_mid, style=plot.style_circles, color=def_color_mid, transp=65)
+p4 = plot(leveluplo_mid, style=plot.style_circles, color=def_color_mid, transp=65)
+fill(p3, p4, color=def_fill_color_mid, transp=70)
+
+leveluphi_mid2 = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_mid and signal <= Threshold_big, high[1], 1))
+leveluplo_mid2 = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_mid and signal <= Threshold_big, low[1], 1))
+p32 = plot(leveluphi_mid2, style=plot.style_circles, color=def_color_mid, transp=65)
+p42 = plot(leveluplo_mid2, style=plot.style_circles, color=def_color_mid, transp=65)
+fill(p32, p42, color=def_fill_color_mid, transp=70)
+
+leveluphi_mid3 = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_mid and signal <= Threshold_big, high[1], 2))
+leveluplo_mid3 = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_mid and signal <= Threshold_big, low[1], 2))
+p33 = plot(leveluphi_mid3, style=plot.style_circles, color=def_color_mid, transp=65)
+p43 = plot(leveluplo_mid3, style=plot.style_circles, color=def_color_mid, transp=65)
+fill(p33, p43, color=def_fill_color_mid, transp=70)
+
+leveluphi_mid4 = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_mid and signal <= Threshold_big, high[1], 3))
+leveluplo_mid4 = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_mid and signal <= Threshold_big, low[1], 3))
+p34 = plot(leveluphi_mid4, style=plot.style_circles, color=def_color_mid, transp=65)
+p44 = plot(leveluplo_mid4, style=plot.style_circles, color=def_color_mid, transp=65)
+fill(p34, p44, color=def_fill_color_mid, transp=70)
+//------------------------------------------------------------------------------------------------
+leveluphi_small = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_small and signal <= Threshold_mid, high[1], 0))
+leveluplo_small = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_small and signal <= Threshold_mid, low[1], 0))
+p5 = plot(leveluphi_small, style=plot.style_circles, color=def_color_small, transp=70)
+p6 = plot(leveluplo_small, style=plot.style_circles, color=def_color_small, transp=70)
+fill(p5, p6, color=def_fill_color_small, transp=70)
+
+leveluphi_small2 = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_small and signal <= Threshold_mid, high[1], 1))
+leveluplo_small2 = security(syminfo.tickerid, TF, valuewhen(signal > Threshold_small and signal <= Threshold_mid, low[1], 1))
+p52 = plot(leveluphi_small2, style=plot.style_circles, color=def_color_small, transp=70)
+p62 = plot(leveluplo_small2, style=plot.style_circles, color=def_color_small, transp=70)
+fill(p52, p62, color=def_fill_color_small, transp=70)
+
+
+length1 = input(title="volume length",type=input.integer,defval=48)
+std_length1 = input(title="std length",type=input.integer,defval=4)
+
+avg = sma(volume,length1)
+std = stdev(volume,length1)
+
+condition = (volume-avg) > std_length1*std
+
+support_line = 0.0 
+resistance_line = 0.0
+
+support_line := condition and close>open ? low : fixnan(support_line[1])
+resistance_line := condition and close<open ? high : fixnan(resistance_line[1])
+
+plotshape(support_line, title= "S", style=shape.circle, location=location.absolute, color=color.blue, transp=10) 
+plotshape(resistance_line, title="R", style=shape.circle, location=location.absolute, color=color.orange, transp=10)
+
+
+plot(ema(close, 200), color=#FF7000, linewidth=1, title='200 Day EMA')
+plot(ema(close, 55), color=#0088FA, linewidth=1, title='20 Day EMA')
+plot(ema(close, 13), color=#FA00D0, linewidth=1, title='50 Day EMA')
+
+
+
+
+
+
+
+//-------------------------------------------------------------------------------------------------------
